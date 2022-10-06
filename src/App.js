@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CreateNote,
   NavBar,
@@ -6,12 +6,26 @@ import {
   UpdateNote,
 } from "./ui-components";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { DataStore } from "aws-amplify";
+import { DataStore, Hub } from "aws-amplify";
 
 function App({ signOut }) {
   const [showCreateModel, setShowCreateModel] = useState(false);
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [noteToUpdate, setNoteToUpdate] = useState();
+  useEffect(() => {
+    Hub.listen(
+      "ui",
+      (capsule) => {
+        if (capsule.payload.event === "actions:datastore:create:finished") {
+          setShowCreateModel(false);
+        }
+        if (capsule.payload.event === "actions:datastore:update:finished") {
+          setShowUpdateModel(false);
+        }
+      },
+      []
+    );
+  });
   return (
     <>
       <NavBar

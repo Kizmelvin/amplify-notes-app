@@ -11,3 +11,4 @@ export { default as PhotoNote } from "./PhotoNote";
 export { default as UpdateNote } from "./UpdateNote";
 export { default as CreateNote } from "./CreateNote";
 export { default as NavBar } from "./NavBar";
+export { default as studioTheme } from "./studioTheme";
